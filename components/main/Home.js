@@ -1,29 +1,22 @@
 import React from 'react'
 import { Button, View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { Slider } from 'react-native-elements'
 
 import { COLOURS } from '../../constants';
 
-// const activities = db.collection('activities').doc('userId');
-
-// firebase.initializeApp(firebaseConfig);
-//     const db = firebase.firestore();
-//     this.entriesRef = db.collection('entries'); 
-//     this.entriesRef.get().then(queryRef=>{
-//       let newEntries = [];
-//       queryRef.forEach(docRef=>{
-//         let docData = docRef.data();
-//         let newEntry = {
-//           text: docData.text,
-//           timestamp: docData.timestamp.toDate(),
-//           key: docRef.id, 
-//           labels: docData.labels
-//         }
-//         newEntries.push(newEntry);
-//       })
-//       this.setState({entries: newEntries});
-//     });
+const readEntries = () => {
+    const entryRef = firebase.database().ref('Entry');
+    firebase.firestore()
+          .collection('posts')
+          .doc(firebase.auth().currentUser.uid)
+          .collection("userPosts")
+          .doc(postId)
+          .get();
+  };
 
 export default function Home({ navigation }) {
+
+    readEntries();
     
     return (
         <View
@@ -34,7 +27,28 @@ export default function Home({ navigation }) {
                 title="+ Add a new Entry"
                 onPress={() => navigation.navigate("AddEntry")} />
         
-
+        <View
+        style={styles.outputBox}>
+            <View style={styles.leftContainer}>
+                <Text>Date</Text>
+            </View>
+            <View style={styles.centerContainer}>
+            <Slider
+            value={userPosts.value}
+            maximumValue={20}
+            minimumValue={-10}
+            step={1}
+            disabled='true'
+            width="80%"
+            trackStyle={{ height: 10, backgroundColor: COLOURS.black }}
+            thumbStyle={{ height: 5, width: 5, backgroundColor: COLOURS.primary }}
+            minimumTrackTintColor={{ backgroundColor: COLOURS.primary}}
+            />
+            </View>
+            <View style={styles.rightContainer}>
+                <Text>Score</Text>
+            </View>
+        </View>
 
         </View>
     )
@@ -65,8 +79,30 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         width: "90%",
         height: 80,
-        alignItems: "center",
+        flexDirection: "row",
         marginBottom: 2,
         marginTop: 5,
-        }
+    },
+    leftContainer: {
+        backgroundColor: "yellow",
+        height: "100%",
+        alignItems: "center",
+        flexDirection: "row",
+        width: "20%",
+    },
+    centerContainer: {
+        backgroundColor: COLOURS.transparent,
+        height: "100%",
+        alignItems: "center",
+        flexDirection: "row",
+        width: "60%",
+    },
+    rightContainer: {
+        backgroundColor: COLOURS.secondary,
+        height: "100%",
+        alignItems: "center",
+        flexDirection: "row",
+        width: "20%",
+    }
+
 })
