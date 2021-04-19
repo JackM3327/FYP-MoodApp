@@ -1,3 +1,4 @@
+import firebase from 'firebase'
 const firebaseConfig = {
     apiKey: "AIzaSyD3oaWp4K4bcfaNwqw0djpQRa1L_MDBjEM",
     authDomain: "fyp-moodapp.firebaseapp.com",
@@ -8,12 +9,7 @@ const firebaseConfig = {
     measurementId: "G-4EH03272C6"
   };
   
-export default {
-  apiKey,
-  authDomain,
-  projectId,
-  storageBucket,
-  messagingSenderId,
-  appId,
-  measurementId,
-}
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+firebase.analytics()
+export default firebase;

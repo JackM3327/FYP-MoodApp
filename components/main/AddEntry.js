@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Text, Button, Image, View, StyleSheet, ScrollView, TouchableOpacity, PixelRatio } from 'react-native';
+import { Text, TextInput, Button, Image, View, StyleSheet, ScrollView, TouchableOpacity, PixelRatio } from 'react-native';
+import { Slider } from 'react-native-elements';
 import { COLOURS } from '../../constants';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import firebase from '../../constants/firebase'
 
-class AddEntry extends Component {
+export class AddEntry extends Component {
 
    constructor(props) {
       super(props);
@@ -14,47 +16,93 @@ class AddEntry extends Component {
         relationships: 0,
         hobbies: 0,
         visible: true,
+        value: 0,
+        textInputValue: '',
       };
    }
 
    
     IncrementExercise = () => {
       this.setState({ exercise: this.state.exercise + 1 });
+      this.setSlider();
     }
     DecreaseExercise = () => {
       this.setState({ exercise: this.state.exercise - 1 });
+      this.setSlider();
     }
     IncrementFoodandDrink = () => {
       this.setState({ foodanddrink: this.state.foodanddrink + 1 });
+      this.setSlider();
     }
     DecreaseFoodandDrink = () => {
       this.setState({ foodanddrink: this.state.foodanddrink - 1 });
+      this.setSlider();
     }
     IncrementWork = () => {
       this.setState({ work: this.state.work + 1 });
+      this.setSlider();
     }
     DecreaseWork = () => {
       this.setState({ work: this.state.work - 1 });
+      this.setSlider();
     }
     IncrementRelationships = () => {
       this.setState({ relationships: this.state.relationships + 1 });
+      this.setSlider();
     }
     DecreaseRelationships = () => {
       this.setState({ relationships: this.state.relationships - 1 });
+      this.setSlider();
     }
     IncrementHobbies = () => {
       this.setState({ hobbies: this.state.hobbies + 1 });
+      this.setSlider();
     }
     DecreaseHobbies = () => {
       this.setState({ hobbies: this.state.hobbies - 1 });
+      this.setSlider();
     }
+    setSlider = () => {
+      this.setState({ value: this.state.exercise + this.state.foodanddrink + this.state.work + this.state.relationships + this.state.hobbies });
+    }
+
+    createEntry = () => {
+      const entryRef = firebase.database().ref('Entry');
+      firebase.firestore()
+            .collection('posts')
+            .doc(firebase.auth().currentUser.uid)
+            .collection("userPosts")
+            .add({
+               exercise: this.state.exercise,
+               foodanddrink: this.state.foodanddrink,
+               work: this.state.work,
+               relationships: this.state.relationships,
+               hobbies: this.state.hobbies,
+               value: this.state.value,
+               textInputValue: this.state.textInputValue,
+            }).then((function () {
+               navigation.goBack();
+            }))
+    };
 
    render() {
 
-   
       return (
          <View>
             <ScrollView>
+            <View style={{ flex: 1, alignItems: 'stretch', justifyContent: 'center' }}>
+            <Slider
+               value={this.state.value}
+               maximumValue={20}
+               minimumValue={-10}
+               step={1}
+               disabled='true'
+               trackStyle={{ height: 10, backgroundColor: COLOURS.secondary }}
+               thumbStyle={{ height: 20, width: 20, backgroundColor: COLOURS.primary }}
+               minimumTrackTintColor={{ backgroundColor: COLOURS.primary}}
+            />
+            <Text>Value: {this.state.value}</Text>
+            </View>
 
                <View style = {styles.row} >
                   <MaterialCommunityIcons name="heart-pulse" color={COLOURS.primary} style={styles.icon} size={70} /> 
@@ -130,10 +178,28 @@ class AddEntry extends Component {
                      <MaterialCommunityIcons name="plus" color={COLOURS.primary} size={50} /> 
                   </TouchableOpacity>
                </View>
+               <TextInput
+                  style={{ 
+                  height: 80, 
+                  borderColor: 'gray', 
+                  borderWidth: 1,
+                  placeholderTextColor: 'gray',
+               }}
+               onChangeText={(textInputValue) => this.setState({ textInputValue })}
+               value={this.state.textInputValue}
+               multiline='true'
+               placeholder="Describe your day..."
+               />
+
+               <Button style={styles.submitBtn}
+               title="Set Slider"
+               onPress={this.setSlider}
+               >
+              </Button>
 
                <Button style={styles.submitBtn}
                title="Save"
-               onPress={() => navigation.navigate('SaveEntry', {this.state})}
+               onPress={this.createEntry}
                >
               </Button>
 
