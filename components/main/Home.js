@@ -1,22 +1,40 @@
-import React from 'react'
-import { Button, View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import { Slider } from 'react-native-elements'
+import React, { useState, useEffect } from 'react';
+import { Button, FlatList, View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { Slider, ListItem } from 'react-native-elements'
+import firebase from '../../constants/firebase';
 
 import { COLOURS } from '../../constants';
 
-const readEntries = () => {
-    const entryRef = firebase.database().ref('Entry');
-    firebase.firestore()
-          .collection('posts')
-          .doc(firebase.auth().currentUser.uid)
-          .collection("userPosts")
-          .doc(postId)
-          .get();
-  };
-
 export default function Home({ navigation }) {
 
-    readEntries();
+    const [postsList, setPostsList] = useState();
+
+    // constructor (value) {
+    //     this.value = value;
+    // }
+
+    const state = {
+        postsList: [],
+      }
+
+    useEffect(() => {
+      const entryRef = firebase.database().ref('Entry');
+      firebase.firestore()
+            .collection('posts')
+            .doc(firebase.auth().currentUser.uid)
+            .collection("userPosts")
+            .get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    // doc.data() is never undefined for query doc snapshots
+                    console.log(doc.id, " => ", doc.data());
+                });
+            })
+            .catch((error) => {
+                console.log("Error getting entries: ", error);
+            });
+    }, []);
+    
     
     return (
         <View
@@ -26,6 +44,38 @@ export default function Home({ navigation }) {
                 style={styles.AddEntryButton}
                 title="+ Add a new Entry"
                 onPress={() => navigation.navigate("AddEntry")} />
+
+            {/* <View>
+            {
+                postsList.map((item, i) => (
+                <ListItem key={i} bottomDivider>
+                    <ListItem.Content>
+                    <View style={styles.leftContainer}>
+                    <Text>item.date</Text>
+                    </View>
+                    <View style={styles.centerContainer}>
+                    <Slider
+                    value= {0} //{item.value}
+                    maximumValue={20}
+                    minimumValue={-10}
+                    step={1}
+                    disabled='true'
+                    width="80%"
+                    trackStyle={{ height: 10, backgroundColor: COLOURS.black }}
+                    thumbStyle={{ height: 5, width: 5, backgroundColor: COLOURS.primary }}
+                    minimumTrackTintColor={{ backgroundColor: 'green'}}
+                    maximumTrackTintColor={{ backgroundColor: 'red'}}
+                    />
+                    </View>
+                    <View style={styles.rightContainer}>
+                        <Text style={styles.valueText}>item.value</Text>
+                    </View>
+                    </ListItem.Content>
+                    <ListItem.Chevron />
+                </ListItem>
+                ))
+            } 
+            </View> */}
         
         <View
         style={styles.outputBox}>
@@ -33,20 +83,22 @@ export default function Home({ navigation }) {
                 <Text>Date</Text>
             </View>
             <View style={styles.centerContainer}>
-            <Slider
-            value={userPosts.value}
+            <View style={styles.sliderContainer}>
+            <Slider 
+            value= {0} //{userPosts.value}
             maximumValue={20}
             minimumValue={-10}
             step={1}
             disabled='true'
-            width="80%"
-            trackStyle={{ height: 10, backgroundColor: COLOURS.black }}
-            thumbStyle={{ height: 5, width: 5, backgroundColor: COLOURS.primary }}
-            minimumTrackTintColor={{ backgroundColor: COLOURS.primary}}
+            trackStyle={{ height: 20 }}
+            thumbStyle={{ height: 20, width: 20, backgroundColor: COLOURS.primary }}
+            minimumTrackTintColor={ COLOURS.primary }
+            maximumTrackTintColor={ COLOURS.secondary}
             />
             </View>
+            </View>
             <View style={styles.rightContainer}>
-                <Text>Score</Text>
+                <Text style={styles.valueText}>19</Text>
             </View>
         </View>
 
@@ -78,7 +130,7 @@ const styles = StyleSheet.create({
         borderColor: COLOURS.black,
         borderRadius: 5,
         width: "90%",
-        height: 80,
+        height: 50,
         flexDirection: "row",
         marginBottom: 2,
         marginTop: 5,
@@ -87,22 +139,33 @@ const styles = StyleSheet.create({
         backgroundColor: "yellow",
         height: "100%",
         alignItems: "center",
-        flexDirection: "row",
+        justifyContent: "center",
         width: "20%",
     },
     centerContainer: {
-        backgroundColor: COLOURS.transparent,
-        height: "100%",
-        alignItems: "center",
-        flexDirection: "row",
-        width: "60%",
-    },
-    rightContainer: {
         backgroundColor: COLOURS.secondary,
         height: "100%",
         alignItems: "center",
+        justifyContent: "center",
+        width: "60%",
+    },
+    sliderContainer: {
+        backgroundColor: COLOURS.darkgray,
+        height: 20,
+        width: "80%",
+        justifyContent: "center",
         flexDirection: "row",
+    },
+    rightContainer: {
+        backgroundColor: COLOURS.darkgray,
+        height: "100%",
+        alignItems: "center",
+        justifyContent: "center",
         width: "20%",
+    },
+    valueText: {
+        color: COLOURS.primary,
+        fontSize: 20,
     }
 
 })

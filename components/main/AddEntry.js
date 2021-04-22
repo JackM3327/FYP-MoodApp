@@ -4,6 +4,7 @@ import { Slider } from 'react-native-elements';
 import { COLOURS } from '../../constants';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import firebase from '../../constants/firebase'
+import { withNavigation } from 'react-navigation';
 
 export class AddEntry extends Component {
 
@@ -20,7 +21,6 @@ export class AddEntry extends Component {
         textInputValue: '',
       };
    }
-
    
     IncrementExercise = () => {
       this.setState({ exercise: this.state.exercise + 1 });
@@ -81,7 +81,7 @@ export class AddEntry extends Component {
                value: this.state.value,
                textInputValue: this.state.textInputValue,
             }).then((function () {
-               navigation.goBack();
+               navigation.navigate("Home");
             }))
     };
 
@@ -91,15 +91,22 @@ export class AddEntry extends Component {
          <View>
             <ScrollView>
             <View style={{ flex: 1, alignItems: 'stretch', justifyContent: 'center' }}>
+
+            {/* <DatePicker
+            date={this.state.date}
+            onDateChange={setDate}
+            /> */}
+
             <Slider
                value={this.state.value}
                maximumValue={20}
                minimumValue={-10}
                step={1}
                disabled='true'
-               trackStyle={{ height: 10, backgroundColor: COLOURS.secondary }}
+               trackStyle={{ height: 20 }}
                thumbStyle={{ height: 20, width: 20, backgroundColor: COLOURS.primary }}
-               minimumTrackTintColor={{ backgroundColor: COLOURS.primary}}
+               minimumTrackTintColor={ COLOURS.primary }
+               maximumTrackTintColor={ COLOURS.secondary}
             />
             <Text>Value: {this.state.value}</Text>
             </View>
@@ -208,11 +215,10 @@ export class AddEntry extends Component {
       )
    }
 }
-export default AddEntry
+export default withNavigation(AddEntry)
 
 const styles = StyleSheet.create ({
     topheader: {
-        fontStyle: 'bold',
         color: COLOURS.white,
         flexDirection: 'row',
         justifyContent: 'center',
@@ -276,7 +282,6 @@ const styles = StyleSheet.create ({
       backgroundColor: COLOURS.primary,
   },
   submitText: {
-   fontStyle: 'bold',
    fontSize: 30,
    color: COLOURS.white,
   },

@@ -1,4 +1,4 @@
-import firebase from 'firebase'
+import firebase from 'firebase/app'
 const firebaseConfig = {
     apiKey: "AIzaSyD3oaWp4K4bcfaNwqw0djpQRa1L_MDBjEM",
     authDomain: "fyp-moodapp.firebaseapp.com",
@@ -9,6 +9,9 @@ const firebaseConfig = {
     measurementId: "G-4EH03272C6"
   };
   
+ 
+  require('firebase/analytics')
+
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 firebase.analytics()

@@ -8,7 +8,9 @@ import {
   Button,
   TouchableOpacity
 } from "react-native";
+import { ListItem, Icon } from 'react-native-elements'
 import { COLOURS, icons, images } from '../../constants';
+import Logo from "../../assets/images/Logo1.png";
 
 import firebase from 'firebase'
 
@@ -24,41 +26,51 @@ export default function Profile({ navigation }) {
           });
     }
 
+    const list = [
+        {
+          title: 'Settings',
+          icon: "cog-outline"
+        },
+        {
+          title: 'Information',
+          icon: "information-outline"
+        },
+        {
+          title: 'Achievements',
+          icon: "trophy"
+        },
+        {
+          title: 'Statistics',
+          icon: "chart-bar"
+        },
+      ]
+
     return (
         <View>
 
-        {/* <Text>{currentUser.name} is Logged in</Text> */}
+        <View style={styles.logoContainer}>
+			<Image source={Logo} style={styles.logo} />
+		</View>
 
-        <Button
-            title="Logout"
-            onPress={() => onLogout()}
-        />
+        <TouchableOpacity style={styles.loginBtn}
+                onPress={() => onLogout()}>
+                <Text>LOGOUT</Text>
+            </TouchableOpacity>
 
-        {/* <Button
-                title="Settings"
-                onPress={() => navigation.navigate("Settings")} /> */}
-        <TouchableOpacity style={styles.settings}
-        onPress={() => navigation.navigate("Settings")}>
-            <View>
-            <Text style={styles.settingstext}>
-            <MaterialCommunityIcons name="cog-outline" color={COLOURS.secondary} size={26} />    
-             Settings
-            </Text>
-            </View>
-        </TouchableOpacity>
-
-        {/* <Button
-                title="Favourites"
-                onPress={() => navigation.navigate("Favourites")} /> */}
-        <TouchableOpacity style={styles.settings}
-        onPress={() => navigation.navigate("Information")}>
-            <View>
-            <Text style={styles.settingstext}>
-            <MaterialCommunityIcons name="information-outline" color={COLOURS.secondary} size={26} />   
-             Information
-            </Text>
-            </View>
-        </TouchableOpacity>
+        <View>
+        {
+            list.map((item, i) => (
+            <ListItem key={i} bottomDivider
+                onPress={() => navigation.navigate(item.title)}>
+                <MaterialCommunityIcons name={item.icon} color={COLOURS.darkgrey} size={20}/>
+                <ListItem.Content>
+                <ListItem.Title>{item.title}</ListItem.Title>
+                </ListItem.Content>
+                <ListItem.Chevron />
+            </ListItem>
+            ))
+        }
+        </View>
 
         </View>
     )
@@ -98,5 +110,30 @@ const styles = StyleSheet.create({
         backgroundColor: COLOURS.white,
         fontSize: 20,
         justifyContent: "center"
+      },
+      logoContainer: { 
+        flex: 0.5, 
+        alignItems: 'center', 
+        justifyContent: 'center',
+        marginTop: 10,
+        
+    },
+
+	logo: { 
+        width: 200, 
+        height: 200, 
+        marginBottom: 10,
+        borderRadius: 100,
+    },
+      loginBtn: {
+        width: "80%",
+        borderRadius: 25,
+        height: 50,
+        alignItems: "center",
+        alignSelf: "center",
+        justifyContent: "center",
+        marginTop: 20,
+        marginBottom: 20,
+        backgroundColor: COLOURS.primary,
       },
 })

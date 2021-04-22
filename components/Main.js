@@ -3,13 +3,13 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { fetchUser } from '../redux/actions/index'
+import { fetchUser, fetchUserPosts } from '../redux/actions/index'
 
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 // import AddEntryScreen from './main/AddEntry'
-import CalendarScreen from './main/Calendar'
+import InformationScreen from './main/Information'
 import HomeScreen from './main/Home'
 import ProfileScreen from './main/Profile'
 import StatisticsScreen from './main/Statistics'
@@ -26,7 +26,7 @@ export class Main extends Component {
     componentDidMount() {
         // this.props.clearData();
         this.props.fetchUser();
-        // this.props.fetchUserPosts();
+        this.props.fetchUserPosts();
     }
 
     render() {
@@ -47,10 +47,10 @@ export class Main extends Component {
                             <MaterialCommunityIcons name="home" color={COLOURS.white} size={26} />
                         ),
                     }} />
-                <Tab.Screen name="Calendar" component={CalendarScreen} navigation={this.props.navigation}
+                <Tab.Screen name="Information" component={InformationScreen} navigation={this.props.navigation}
                     options={{
                         tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="calendar" color={COLOURS.white} size={26} />
+                            <MaterialCommunityIcons name="information-outline" color={COLOURS.white} size={26} />
                         ),
                     }} />
                 <Tab.Screen name="Statistics" component={StatisticsScreen}
@@ -73,6 +73,6 @@ export class Main extends Component {
 const mapStateToProps = (store) => ({
     currentUser: store.userState.currentUser
 })
-const mapDispatchProps = (dispatch) => bindActionCreators({fetchUser}, dispatch);
+const mapDispatchProps = (dispatch) => bindActionCreators({fetchUser, fetchUserPosts}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchProps)(Main)

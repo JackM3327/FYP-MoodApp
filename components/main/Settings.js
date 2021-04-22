@@ -18,7 +18,6 @@ export default ScrollViewExample
 
 const styles = StyleSheet.create ({
     container: {
-        fontStyle: 'bold',
         color: COLOURS.white,
         flexDirection: 'row',
         justifyContent: 'center',
