@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, FlatList, View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { List } from 'react-native-paper'
 import { Slider, ListItem } from 'react-native-elements'
 import firebase from '../../constants/firebase';
 
@@ -7,101 +8,73 @@ import { COLOURS } from '../../constants';
 
 export default function Home({ navigation }) {
 
-    const [postsList, setPostsList] = useState();
+    const [postsList, setPostsList] = useState([]); //Initialise restaurant list with setter
+    const [errorMessage, setErrorMessage] = useState("");
 
-    // constructor (value) {
-    //     this.value = value;
-    // }
-
-    const state = {
-        postsList: [],
-      }
-
-    useEffect(() => {
-      const entryRef = firebase.database().ref('Entry');
-      firebase.firestore()
-            .collection('posts')
-            .doc(firebase.auth().currentUser.uid)
-            .collection("userPosts")
-            .get()
-            .then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    // doc.data() is never undefined for query doc snapshots
-                    console.log(doc.id, " => ", doc.data());
-                });
-            })
-            .catch((error) => {
-                console.log("Error getting entries: ", error);
-            });
-    }, []);
+    const getEntries = async () => {
+        try {
+          const list = [];
+          var snapshot = await firebase.firestore()
+          .collection('posts')
+          .doc(firebase.auth().currentUser.uid)
+          .collection("userPosts")
+          .get();
+          snapshot.forEach((doc) => {
+            list.push(doc.data());
+          });
+          setPostsList([...list]);
+        } catch (e) {
+          setErrorMessage(
+            "No Entries added yet"
+          );
+        }
+      };
     
-    
+      //Call when component is rendered
+      useEffect(() => {
+        getEntries();
+      }, []);
+
     return (
-        <View
-        style={styles.container}>
-            {/* <Text> Welcome {currentUser.name} </Text> */}
+        <View style={styles.container}>
+            
         <Button
-                style={styles.AddEntryButton}
-                title="+ Add a new Entry"
-                onPress={() => navigation.navigate("AddEntry")} />
+            style={styles.AddEntryButton}
+            title="+ Add a new Entry"
+            onPress={() => navigation.navigate("AddEntry")} />
 
-            {/* <View>
+        <View>
+
             {
-                postsList.map((item, i) => (
-                <ListItem key={i} bottomDivider>
-                    <ListItem.Content>
-                    <View style={styles.leftContainer}>
-                    <Text>item.date</Text>
-                    </View>
-                    <View style={styles.centerContainer}>
-                    <Slider
-                    value= {0} //{item.value}
-                    maximumValue={20}
-                    minimumValue={-10}
-                    step={1}
-                    disabled='true'
-                    width="80%"
-                    trackStyle={{ height: 10, backgroundColor: COLOURS.black }}
-                    thumbStyle={{ height: 5, width: 5, backgroundColor: COLOURS.primary }}
-                    minimumTrackTintColor={{ backgroundColor: 'green'}}
-                    maximumTrackTintColor={{ backgroundColor: 'red'}}
-                    />
-                    </View>
-                    <View style={styles.rightContainer}>
-                        <Text style={styles.valueText}>item.value</Text>
-                    </View>
-                    </ListItem.Content>
-                    <ListItem.Chevron />
-                </ListItem>
-                ))
-            } 
-            </View> */}
-        
-        <View
-        style={styles.outputBox}>
-            <View style={styles.leftContainer}>
+            postsList.map((item, i) => (
+            <ListItem key={i} bottomDivider>
+                <ListItem.Content>
+                <View style={styles.outputBox}>
+                <View style={styles.leftContainer}>
                 <Text>Date</Text>
-            </View>
-            <View style={styles.centerContainer}>
-            <View style={styles.sliderContainer}>
-            <Slider 
-            value= {0} //{userPosts.value}
-            maximumValue={20}
-            minimumValue={-10}
-            step={1}
-            disabled='true'
-            trackStyle={{ height: 20 }}
-            thumbStyle={{ height: 20, width: 20, backgroundColor: COLOURS.primary }}
-            minimumTrackTintColor={ COLOURS.primary }
-            maximumTrackTintColor={ COLOURS.secondary}
+                </View>
+                <View style={styles.centerContainer}>
+                <Slider
+               value={item.value}
+               maximumValue={20}
+               minimumValue={-10}
+               step={1}
+               disabled='true'
+               trackStyle={{ height: 20 }}
+               thumbStyle={{ height: 20, width: 20, backgroundColor: COLOURS.primary }}
+               minimumTrackTintColor={ COLOURS.primary }
+               maximumTrackTintColor={ COLOURS.secondary}
             />
+                </View>
+                <View style={styles.rightContainer}>
+                    <Text style={styles.valueText}>{item.value}</Text>
+                </View>
+                </View>
+                </ListItem.Content>
+            </ListItem>
+            ))
+            } 
             </View>
-            </View>
-            <View style={styles.rightContainer}>
-                <Text style={styles.valueText}>19</Text>
-            </View>
-        </View>
-
         </View>
     )
 }
@@ -110,7 +83,6 @@ const styles = StyleSheet.create({
     container: {
         color: COLOURS.black,
         border: "10",
-        alignItems: "center",
         flex: 1,
     },
     AddEntryButton: {
@@ -125,47 +97,44 @@ const styles = StyleSheet.create({
         marginTop: 5,
         fontWeight: "bold",
     },
+    listContainer: {
+        width: "100%",
+    },
     outputBox: {
-        borderWidth: 1,
-        borderColor: COLOURS.black,
-        borderRadius: 5,
         width: "90%",
         height: 50,
         flexDirection: "row",
-        marginBottom: 2,
-        marginTop: 5,
+        alignItems: "center",
+        alignSelf: "center",
+        justifyContent: "center",
     },
     leftContainer: {
-        backgroundColor: "yellow",
         height: "100%",
         alignItems: "center",
         justifyContent: "center",
         width: "20%",
     },
     centerContainer: {
-        backgroundColor: COLOURS.secondary,
         height: "100%",
         alignItems: "center",
         justifyContent: "center",
-        width: "60%",
+        width: "80%",
     },
     sliderContainer: {
-        backgroundColor: COLOURS.darkgray,
         height: 20,
-        width: "80%",
+        width: "100%",
         justifyContent: "center",
         flexDirection: "row",
     },
     rightContainer: {
-        backgroundColor: COLOURS.darkgray,
         height: "100%",
         alignItems: "center",
         justifyContent: "center",
         width: "20%",
     },
-    valueText: {
-        color: COLOURS.primary,
-        fontSize: 20,
-    }
+    // valueText: {
+    //     color: COLOURS.primary,
+    //     fontSize: 20,
+    // }
 
 })
