@@ -9,19 +9,19 @@ import rootReducer from './redux/reducers'
 import thunk from 'redux-thunk'
 const store = createStore(rootReducer, applyMiddleware(thunk))
 
-const firebaseConfig = {
-  apiKey: "AIzaSyD3oaWp4K4bcfaNwqw0djpQRa1L_MDBjEM",
-  authDomain: "fyp-moodapp.firebaseapp.com",
-  projectId: "fyp-moodapp",
-  storageBucket: "fyp-moodapp.appspot.com",
-  messagingSenderId: "681983210406",
-  appId: "1:681983210406:web:fc8c3a5cb28cbb70255567",
-  measurementId: "G-4EH03272C6"
-};
+// const firebaseConfig = {
+//   apiKey: "AIzaSyD3oaWp4K4bcfaNwqw0djpQRa1L_MDBjEM",
+//   authDomain: "fyp-moodapp.firebaseapp.com",
+//   projectId: "fyp-moodapp",
+//   storageBucket: "fyp-moodapp.appspot.com",
+//   messagingSenderId: "681983210406",
+//   appId: "1:681983210406:web:fc8c3a5cb28cbb70255567",
+//   measurementId: "G-4EH03272C6"
+// };
 
-if (firebase.apps.length === 0) {
-  firebase.initializeApp(firebaseConfig)
-}
+// if (firebase.apps.length === 0) {
+//   firebase.initializeApp(firebaseConfig)
+// }
 
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native'

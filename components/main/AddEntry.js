@@ -65,6 +65,10 @@ export class AddEntry extends Component {
     setSlider = () => {
       this.setState({ value: this.state.exercise + this.state.foodanddrink + this.state.work + this.state.relationships + this.state.hobbies });
     }
+   //  setDate = () => {
+   //     this.setDate({ 
+   //     })
+   //  }
 
     createEntry = () => {
       const entryRef = firebase.database().ref('Entry');
@@ -80,6 +84,7 @@ export class AddEntry extends Component {
                hobbies: this.state.hobbies,
                value: this.state.value,
                textInputValue: this.state.textInputValue,
+               date: firebase.firestore.FieldValue.serverTimestamp()
             }).then((function () {
                navigation.navigate("Home");
             }))
@@ -92,12 +97,18 @@ export class AddEntry extends Component {
             <ScrollView>
             <View style={{ flex: 1, alignItems: 'stretch', justifyContent: 'center' }}>
 
-            {/* <DatePicker
+            
+            {/* DatePicker is currently not supported by Expo so cannot be used (yet)
+            Timestamp will be created instead
+            <DatePicker
             date={this.state.date}
+            mode='date'
             onDateChange={setDate}
             /> */}
 
-            <Slider
+            <View style={styles.row}>
+               <View style={styles.leftTop}>
+               <Slider
                value={this.state.value}
                maximumValue={20}
                minimumValue={-10}
@@ -107,12 +118,17 @@ export class AddEntry extends Component {
                thumbStyle={{ height: 20, width: 20, backgroundColor: COLOURS.primary }}
                minimumTrackTintColor={ COLOURS.primary }
                maximumTrackTintColor={ COLOURS.secondary}
-            />
-            <Text>Value: {this.state.value}</Text>
+               />
+               </View>
+               <View style={styles.rightTop}>
+               <Text style={styles.ratioText}>{this.state.value}</Text>
+               </View>
+            </View>
+
             </View>
 
                <View style = {styles.row} >
-                  <MaterialCommunityIcons name="heart-pulse" color={COLOURS.primary} style={styles.icon} size={70} /> 
+                  <MaterialCommunityIcons name="heart-pulse" color={COLOURS.primary} style={styles.icon} size={50} /> 
                   <TouchableOpacity style={styles.plusminus}
                   onPress={this.DecreaseExercise}>
                      <MaterialCommunityIcons name="minus" color={COLOURS.primary} size={50} /> 
@@ -127,7 +143,7 @@ export class AddEntry extends Component {
                </View>
 
                <View style = {styles.row} >
-               <MaterialCommunityIcons name="food-apple" color={COLOURS.primary} style={styles.icon} size={70} /> 
+               <MaterialCommunityIcons name="food-apple" color={COLOURS.primary} style={styles.icon} size={50} /> 
                   <TouchableOpacity style={styles.plusminus}
                   onPress={this.DecreaseFoodandDrink}>
                      <MaterialCommunityIcons name="minus" color={COLOURS.primary} size={50} /> 
@@ -142,7 +158,7 @@ export class AddEntry extends Component {
                </View>
 
                <View style = {styles.row} >
-               <MaterialCommunityIcons name="briefcase" color={COLOURS.primary} style={styles.icon} size={70} /> 
+               <MaterialCommunityIcons name="briefcase" color={COLOURS.primary} style={styles.icon} size={50} /> 
                   <TouchableOpacity style={styles.plusminus}
                   onPress={this.DecreaseWork}>
                      <MaterialCommunityIcons name="minus" color={COLOURS.primary} size={50} /> 
@@ -157,7 +173,7 @@ export class AddEntry extends Component {
                </View>
 
                <View style = {styles.row} >
-               <MaterialCommunityIcons name="account-group" color={COLOURS.primary} style={styles.icon} size={70} /> 
+               <MaterialCommunityIcons name="account-group" color={COLOURS.primary} style={styles.icon} size={50} /> 
                   <TouchableOpacity style={styles.plusminus}
                   onPress={this.DecreaseRelationships}>
                      <MaterialCommunityIcons name="minus" color={COLOURS.primary} size={50} /> 
@@ -172,7 +188,7 @@ export class AddEntry extends Component {
                </View>
 
                <View style = {styles.row} >
-               <MaterialCommunityIcons name="gamepad-variant" color={COLOURS.primary} style={styles.icon} size={70} /> 
+               <MaterialCommunityIcons name="gamepad-variant" color={COLOURS.primary} style={styles.icon} size={50} /> 
                   <TouchableOpacity style={styles.plusminus}
                   onPress={this.DecreaseHobbies}>
                      <MaterialCommunityIcons name="minus" color={COLOURS.primary} size={50} /> 
@@ -186,29 +202,28 @@ export class AddEntry extends Component {
                   </TouchableOpacity>
                </View>
                <TextInput
-                  style={{ 
-                  height: 80, 
-                  borderColor: 'gray', 
-                  borderWidth: 1,
-                  placeholderTextColor: 'gray',
-               }}
+                  style={styles.textBox}
                onChangeText={(textInputValue) => this.setState({ textInputValue })}
                value={this.state.textInputValue}
                multiline='true'
                placeholder="Describe your day..."
                />
 
-               <Button style={styles.submitBtn}
-               title="Set Slider"
-               onPress={this.setSlider}
-               >
-              </Button>
+               <View>
+                  <TouchableOpacity 
+                  style={styles.AddEntryButton}
+                  onPress={this.setSlider}>
+                        <Text>Set Slider</Text>
+                  </TouchableOpacity>    
+               </View>
 
-               <Button style={styles.submitBtn}
-               title="Save"
-               onPress={this.createEntry}
-               >
-              </Button>
+               <View>
+                  <TouchableOpacity 
+                  style={styles.AddEntryButton}
+                  onPress={this.createEntry}>
+                        <Text>Save</Text>
+                  </TouchableOpacity>    
+               </View>
 
             </ScrollView>
          </View>
@@ -218,17 +233,6 @@ export class AddEntry extends Component {
 export default withNavigation(AddEntry)
 
 const styles = StyleSheet.create ({
-    topheader: {
-        color: COLOURS.white,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 30,
-        margin: 2,
-        borderColor: COLOURS.black,
-        borderWidth: 1,
-        backgroundColor: COLOURS.primary,
-    },
     row: {
       flexDirection: 'row',
       margin: 2, 
@@ -237,49 +241,58 @@ const styles = StyleSheet.create ({
       borderWidth: 5,
       borderColor: 'transparent',
     },
+    leftTop: {
+      width: "80%",
+    },
+    rightTop: {
+      width: 50,
+      height: 50,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
     icon: {
-      width: 60,
-      height: 60,
-      borderRadius: 30
+      width: 50,
+      height: 50,
+      borderRadius: 25
    },
    plusminus: {
-      width: 60,
-      height: 60,
+      width: 50,
+      height: 50,
       borderWidth:1,
       backgroundColor: COLOURS.secondary,
       borderColor:COLOURS.lightGray,
-      borderRadius: 30,
+      borderRadius: 25,
       justifyContent: 'center',
       alignItems: 'center',
    },
    ratioBox: {
-      size: 60,
-      height: 60,
-      backgroundColor: 'transparent',
-      borderColor:COLOURS.lightGray,
-      borderRadius: 5,
+      size: 50,
+      height: 50,
       justifyContent: 'center',
       alignItems: 'center',
    },
    ratioText: {
-     color: COLOURS.primary,
-     fontSize: 50,
+      color: COLOURS.primary,
+      fontSize: 50,
+    },
+   textBox: {
+      height: 80, 
+      borderColor: 'gray', 
+      borderWidth: 1,
+      placeholderTextColor: 'gray',
+      margin: 5,
    },
-   buttons: {
-      width: 60,
-      height: 60,
-      backgroundColor: 'blue',
-      borderRadius: 30
-   },
-   submitBtn: {
-      flexDirection: 'bottom',
-      justifyContent: 'center',
-      alignItems: 'center',
-      padding: 30,
-      margin: 2,
-      borderColor: COLOURS.black,
+   AddEntryButton: {
       borderWidth: 1,
       backgroundColor: COLOURS.primary,
+      borderRadius: 25,
+      borderColor: COLOURS.secondary,
+      width: "80%",
+      height: 50,
+      alignItems: "center",
+      alignSelf: "center",
+      justifyContent: "center",
+      margin: 5,
   },
   submitText: {
    fontSize: 30,

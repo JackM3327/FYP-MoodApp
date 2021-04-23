@@ -18,6 +18,7 @@ export default function Home({ navigation }) {
           .collection('posts')
           .doc(firebase.auth().currentUser.uid)
           .collection("userPosts")
+          .orderBy("date", "desc")
           .get();
           snapshot.forEach((doc) => {
             list.push(doc.data());
@@ -37,11 +38,14 @@ export default function Home({ navigation }) {
 
     return (
         <View style={styles.container}>
-            
-        <Button
-            style={styles.AddEntryButton}
-            title="+ Add a new Entry"
-            onPress={() => navigation.navigate("AddEntry")} />
+
+        <View>
+        <TouchableOpacity 
+        style={styles.AddEntryButton}
+        onPress={() => navigation.navigate("AddEntry")}>
+            <Text>+ Add Entry</Text>
+        </TouchableOpacity>    
+        </View>
 
         <View>
 
@@ -51,20 +55,21 @@ export default function Home({ navigation }) {
                 <ListItem.Content>
                 <View style={styles.outputBox}>
                 <View style={styles.leftContainer}>
-                <Text>Date</Text>
+                <Text>{item.date.toDate().toDateString()}</Text>
                 </View>
                 <View style={styles.centerContainer}>
                 <Slider
-               value={item.value}
-               maximumValue={20}
-               minimumValue={-10}
-               step={1}
-               disabled='true'
-               trackStyle={{ height: 20 }}
-               thumbStyle={{ height: 20, width: 20, backgroundColor: COLOURS.primary }}
-               minimumTrackTintColor={ COLOURS.primary }
-               maximumTrackTintColor={ COLOURS.secondary}
-            />
+                style={{ flex: 1, width: "100%", alignItems: 'stretch', justifyContent: 'center' }}
+                value={item.value}
+                maximumValue={20}
+                minimumValue={-10}
+                step={1}
+                disabled='true'
+                trackStyle={{ height: 20 }}
+                thumbStyle={{ height: 20, width: 20, backgroundColor: COLOURS.primary }}
+                minimumTrackTintColor={ COLOURS.primary }
+                maximumTrackTintColor={ COLOURS.secondary}
+                />
                 </View>
                 <View style={styles.rightContainer}>
                     <Text style={styles.valueText}>{item.value}</Text>
@@ -88,14 +93,14 @@ const styles = StyleSheet.create({
     AddEntryButton: {
         borderWidth: 1,
         backgroundColor: COLOURS.primary,
-        borderRadius: 5,
-        width: "90%",
-        height: 80,
+        borderRadius: 30,
+        borderColor: COLOURS.secondary,
+        width: "80%",
+        height: 60,
         alignItems: "center",
+        alignSelf: "center",
         justifyContent: "center",
-        marginBottom: 2,
-        marginTop: 5,
-        fontWeight: "bold",
+        margin: 5,
     },
     listContainer: {
         width: "100%",
