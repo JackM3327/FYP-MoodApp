@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, FlatList, View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { Button, FlatList, View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native'
 import { List } from 'react-native-paper'
 import { Slider, ListItem } from 'react-native-elements'
 import firebase from '../../constants/firebase';
@@ -37,13 +37,13 @@ export default function Home({ navigation }) {
       }, []);
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
 
         <View>
         <TouchableOpacity 
         style={styles.AddEntryButton}
         onPress={() => navigation.navigate("AddEntry")}>
-            <Text>+ Add Entry</Text>
+            <Text style={styles.buttonText}>+ Add Entry</Text>
         </TouchableOpacity>    
         </View>
 
@@ -60,19 +60,20 @@ export default function Home({ navigation }) {
                 <View style={styles.centerContainer}>
                 <Slider
                 style={{ flex: 1, width: "100%", alignItems: 'stretch', justifyContent: 'center' }}
-                value={item.value}
-                maximumValue={20}
-                minimumValue={-10}
+                value={item.posvalue}
+                maximumValue={item.posvalue + item.negvalue}
+                minimumValue={item.negvalue}
                 step={1}
                 disabled='true'
                 trackStyle={{ height: 20 }}
-                thumbStyle={{ height: 20, width: 20, backgroundColor: COLOURS.primary }}
-                minimumTrackTintColor={ COLOURS.primary }
-                maximumTrackTintColor={ COLOURS.secondary}
+                thumbStyle={{ height: 20, width: 20, backgroundColor: COLOURS.green }}
+                minimumTrackTintColor={ COLOURS.green }
+                maximumTrackTintColor={ COLOURS.lightGray}
+                else
                 />
                 </View>
                 <View style={styles.rightContainer}>
-                    <Text style={styles.valueText}>{item.value}</Text>
+                    <Text style={styles.valueText}>{item.posvalue}:{item.negvalue}</Text>
                 </View>
                 </View>
                 </ListItem.Content>
@@ -80,7 +81,7 @@ export default function Home({ navigation }) {
             ))
             } 
             </View>
-        </View>
+        </ScrollView>
     )
 }
 
@@ -95,12 +96,16 @@ const styles = StyleSheet.create({
         backgroundColor: COLOURS.primary,
         borderRadius: 30,
         borderColor: COLOURS.secondary,
-        width: "80%",
+        width: "70%",
         height: 60,
         alignItems: "center",
         alignSelf: "center",
         justifyContent: "center",
-        margin: 5,
+        margin: 10,
+    },
+    buttonText: {
+        color: COLOURS.white,
+        fontSize: 20
     },
     listContainer: {
         width: "100%",
@@ -137,9 +142,9 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         width: "20%",
     },
-    // valueText: {
-    //     color: COLOURS.primary,
-    //     fontSize: 20,
-    // }
+    valueText: {
+        color: COLOURS.primary,
+        fontSize: 20,
+    }
 
 })

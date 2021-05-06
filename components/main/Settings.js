@@ -1,32 +1,10 @@
-import React, { Component } from 'react';
-import { Text, Image, View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { Checkbox } from 'react-native-paper';
-import { COLOURS } from '../../constants';
+import React from 'react'
+import { View, Text } from 'react-native'
 
-
-class ScrollViewExample extends Component {
-
-   render() {
-      return (
-         <View>
-            
-         </View>
-      )
-   }
+export default function Settings() {
+    return (
+        <View>
+            <Text>Settings</Text>
+        </View>
+    )
 }
-export default ScrollViewExample
-
-const styles = StyleSheet.create ({
-    container: {
-        color: COLOURS.white,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 30,
-        margin: 2,
-        borderColor: COLOURS.black,
-        borderWidth: 1,
-        backgroundColor: COLOURS.primary,
-    },
-    
-})
