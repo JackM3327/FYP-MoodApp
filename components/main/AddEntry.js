@@ -250,7 +250,7 @@ export default function AddEntry({ navigation }) {
             <Slider
             value={posvalue}
             maximumValue={posvalue+negvalue}
-            minimumValue={negvalue}
+            minimumValue={-1}
             step={1}
             disabled='true'
             trackStyle={{ height: 20 }}

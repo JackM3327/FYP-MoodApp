@@ -34,7 +34,7 @@ export default function Information() {
 
          <View style = {styles.row} >
          <View style={styles.iconcontainer}>
-         <MaterialCommunityIcons name="heart-pulse" color={COLOURS.primary} style={styles.topicon} size={50} onPress={toggleexerciseModal} />
+         <MaterialCommunityIcons name="heart-pulse" color={COLOURS.primary} style={styles.topicon} size={40} onPress={toggleexerciseModal} />
          </View>
          <View style={styles.iconcontainer}>
          <MaterialCommunityIcons name="food-apple" color={COLOURS.primary} style={styles.topicon} size={50} onPress={togglefoodModal} />

@@ -78,7 +78,21 @@ export default function Home({ navigation }) {
             <ListItem 
             key={i} 
             bottomDivider
-            onPress={() => navigation.navigate("ViewEntry", {item})}>
+            onPress={() => navigation.navigate("ViewEntry", { 
+                exercisepos: item.exercisepos,
+                exerciseneg: item.exerciseneg,
+                foodpos: item.foodpos,
+                foodneg: item.foodneg,
+                workpos: item.workpos,
+                workneg: item.workneg,
+                relationshipspos: item.relationshipspos,
+                relationshipsneg: item.relationshipsneg,
+                hobbiespos: item.hobbiespos,
+                hobbiesneg: item.hobbiesneg,
+                posvalue: item.posvalue,
+                negvalue: item.negvalue,
+                textInputValue: item.textInputValue,
+                date: item.date.toDate().toDateString() })}>
                 <ListItem.Content>
                 <View style={styles.outputBox}>
                 <View style={styles.leftContainer}>
@@ -89,7 +103,7 @@ export default function Home({ navigation }) {
                 style={{ flex: 1, width: "100%", alignItems: 'stretch', justifyContent: 'center' }}
                 value={item.posvalue}
                 maximumValue={item.posvalue + item.negvalue}
-                minimumValue={item.negvalue}
+                minimumValue={-1}
                 step={1}
                 disabled='true'
                 trackStyle={{ height: 20 }}
