@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Button, FlatList, View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native'
+import { Button, Image, FlatList, View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native'
 import { List } from 'react-native-paper'
 import { Slider, ListItem } from 'react-native-elements'
 import firebase from '../../constants/firebase';
+import Logo from "../../assets/images/Logo1.png";
 
 import { COLOURS } from '../../constants';
 
 export default function Home({ navigation }) {
 
-    const [postsList, setPostsList] = useState([]); //Initialise restaurant list with setter
+    const [postsList, setPostsList] = useState([]); 
     const [errorMessage, setErrorMessage] = useState("");
 
     const getEntries = async () => {
@@ -35,7 +36,30 @@ export default function Home({ navigation }) {
       useEffect(() => {
         getEntries();
       }, []);
-
+    
+    // if (postsList != [] ) {
+    //     return (
+    //         <View>
+    //             <View>
+    //             <TouchableOpacity 
+    //             style={styles.AddEntryButton}
+    //             onPress={() => navigation.navigate("AddEntry")}>
+    //                 <Text style={styles.buttonText}>+ Add Entry</Text>
+    //             </TouchableOpacity>    
+    //         </View>
+    //         <View style={styles.nostatemessage}>
+    //             <View style={styles.logoContainer}>
+    //             <Image source={Logo} style={styles.logo} />
+    //             </View>
+    //           <Text>Welcome to BalanceDiary!</Text>
+    //           <Text>No Entries added yet</Text>
+    //           <Text>Click above to add your first Entry!</Text>
+    //           <Text>Go to the information section to find out more!</Text>
+    //         </View>
+    //         </View>
+        
+    //         )}
+    // else {        
     return (
         <ScrollView style={styles.container}>
 
@@ -48,10 +72,13 @@ export default function Home({ navigation }) {
         </View>
 
         <View>
-
             {
             postsList.map((item, i) => (
-            <ListItem key={i} bottomDivider>
+            
+            <ListItem 
+            key={i} 
+            bottomDivider
+            onPress={() => navigation.navigate("ViewEntry", {item})}>
                 <ListItem.Content>
                 <View style={styles.outputBox}>
                 <View style={styles.leftContainer}>
@@ -66,8 +93,8 @@ export default function Home({ navigation }) {
                 step={1}
                 disabled='true'
                 trackStyle={{ height: 20 }}
-                thumbStyle={{ height: 20, width: 20, backgroundColor: COLOURS.green }}
-                minimumTrackTintColor={ COLOURS.green }
+                thumbStyle={{ height: 20, width: 20, backgroundColor: COLOURS.primary }}
+                minimumTrackTintColor={ COLOURS.primary }
                 maximumTrackTintColor={ COLOURS.lightGray}
                 else
                 />
@@ -78,11 +105,13 @@ export default function Home({ navigation }) {
                 </View>
                 </ListItem.Content>
             </ListItem>
+            
             ))
             } 
             </View>
         </ScrollView>
     )
+    // }
 }
 
 const styles = StyleSheet.create({
@@ -101,7 +130,23 @@ const styles = StyleSheet.create({
         alignItems: "center",
         alignSelf: "center",
         justifyContent: "center",
-        margin: 10,
+        margin: 20,
+    },
+    logoContainer: { 
+        flex: 0.5, 
+        alignItems: 'center', 
+        justifyContent: 'center',
+        marginTop: 10,
+    },
+    logo: { 
+        width: 200, 
+        height: 200, 
+        marginBottom: 10,
+        borderRadius: 100,
+    },
+    nostatemessage: {
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     buttonText: {
         color: COLOURS.white,
