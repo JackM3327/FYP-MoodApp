@@ -13,17 +13,17 @@ export default function Landing({ navigation }) {
 			<View style={styles.logoContainer}>
 				<Image source={Logo} style={styles.logo} />
 			</View>
-			<SafeAreaView style={styles.buttonContainer}>
+            <View>
             <TouchableOpacity style={styles.loginBtn}
                 onPress={() => navigation.navigate("Register")} >
-                <Text>REGISTER</Text>
+                <Text style={styles.buttonText}>REGISTER</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.loginBtn}
                 onPress={() => navigation.navigate("Login")}>
-                <Text>LOGIN</Text>
+                <Text style={styles.buttonText}>LOGIN</Text>
             </TouchableOpacity>
-			</SafeAreaView>
+            </View>
 		</ImageBackground>
     )
 }
@@ -45,26 +45,30 @@ const styles = StyleSheet.create({
 	logo: { 
         width: 300, 
         height: 300, 
-        marginBottom: 10,
+        marginBottom: 20,
         borderRadius: 175,
     },
     
     buttonContainer: {
         alignItems: "center",
-        marginTop: 100
+        marginTop: 120
     },
 
     loginBtn: {
-        width: "80%",
-        borderRadius: 25,
-        height: 50,
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: 10,
+        borderWidth: 1,
         backgroundColor: COLOURS.primary,
+        borderRadius: 30,
+        borderColor: COLOURS.secondary,
+        width: "70%",
+        height: 60,
+        alignItems: "center",
+        alignSelf: "center",
+        justifyContent: "center",
+        margin: 20,
       },
 
       buttonText: {
-
-      }
+        color: COLOURS.white,
+        fontSize: 20
+    },
 })

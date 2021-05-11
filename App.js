@@ -35,6 +35,7 @@ import AddEntryScreen from './components/main/AddEntry'
 import SettingsScreen from './components/main/Settings'
 import InformationScreen from './components/main/Information'
 import ViewEntryScreen from './components/main/ViewEntry'
+import AchievementsScreen from './components/main/Achievements'
 
 const Stack = createStackNavigator();
 
@@ -91,6 +92,7 @@ export class App extends Component {
         <Stack.Screen name="ViewEntry" component={ViewEntryScreen}/>
         <Stack.Screen name="Settings" component={SettingsScreen}/>
         <Stack.Screen name="Information" component={InformationScreen}/>
+        <Stack.Screen name="Achievements" component={AchievementsScreen}/>
       </Stack.Navigator>
      </Provider>
      </NavigationContainer> 

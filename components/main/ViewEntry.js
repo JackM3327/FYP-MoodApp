@@ -162,7 +162,6 @@ const ViewEntry = ({route}) => {
 const styles = StyleSheet.create({
     container: {
         color: COLOURS.black,
-        border: "10",
         flex: 1,
     },
     textContainer: {
@@ -196,7 +195,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
       },
       ratioBox: {
-        size: 40,
         height: 40,
         justifyContent: 'center',
         alignItems: 'center',
@@ -246,7 +244,6 @@ const styles = StyleSheet.create({
         borderColor: COLOURS.lightGray, 
         borderWidth: 1,
         borderRadius: 5,
-        placeholderTextColor: COLOURS.darkgray,
         margin: 5,
         backgroundColor: COLOURS.white,
      },

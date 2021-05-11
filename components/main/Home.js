@@ -37,29 +37,29 @@ export default function Home({ navigation }) {
         getEntries();
       }, []);
     
-    // if (postsList != [] ) {
-    //     return (
-    //         <View>
-    //             <View>
-    //             <TouchableOpacity 
-    //             style={styles.AddEntryButton}
-    //             onPress={() => navigation.navigate("AddEntry")}>
-    //                 <Text style={styles.buttonText}>+ Add Entry</Text>
-    //             </TouchableOpacity>    
-    //         </View>
-    //         <View style={styles.nostatemessage}>
-    //             <View style={styles.logoContainer}>
-    //             <Image source={Logo} style={styles.logo} />
-    //             </View>
-    //           <Text>Welcome to BalanceDiary!</Text>
-    //           <Text>No Entries added yet</Text>
-    //           <Text>Click above to add your first Entry!</Text>
-    //           <Text>Go to the information section to find out more!</Text>
-    //         </View>
-    //         </View>
+    if (postsList.length == 0 ) {
+        return (
+            <View>
+                <View>
+                <TouchableOpacity 
+                style={styles.AddEntryButton}
+                onPress={() => navigation.navigate("AddEntry")}>
+                    <Text style={styles.buttonText}>+ Add Entry</Text>
+                </TouchableOpacity>    
+            </View>
+            <View style={styles.nostatemessage}>
+                <View style={styles.logoContainer}>
+                <Image source={Logo} style={styles.logo} />
+                </View>
+              <Text>Welcome to BalanceDiary!</Text>
+              <Text>No Entries added yet</Text>
+              <Text>Click above to add your first Entry!</Text>
+              <Text>Go to the information section to find out more!</Text>
+            </View>
+            </View>
         
-    //         )}
-    // else {        
+            )}
+    else {        
     return (
         <ScrollView style={styles.container}>
 
@@ -109,8 +109,7 @@ export default function Home({ navigation }) {
                 trackStyle={{ height: 20 }}
                 thumbStyle={{ height: 20, width: 20, backgroundColor: COLOURS.primary }}
                 minimumTrackTintColor={ COLOURS.primary }
-                maximumTrackTintColor={ COLOURS.lightGray}
-                else
+                maximumTrackTintColor={ COLOURS.secondary}
                 />
                 </View>
                 <View style={styles.rightContainer}>
@@ -125,13 +124,12 @@ export default function Home({ navigation }) {
             </View>
         </ScrollView>
     )
-    // }
+ }
 }
 
 const styles = StyleSheet.create({
     container: {
         color: COLOURS.black,
-        border: "10",
         flex: 1,
     },
     AddEntryButton: {

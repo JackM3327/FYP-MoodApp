@@ -54,7 +54,7 @@ export default function Profile({ navigation }) {
 
         <TouchableOpacity style={styles.loginBtn}
                 onPress={() => onLogout()}>
-                <Text>LOGOUT</Text>
+                <Text style={styles.buttonText}>LOGOUT</Text>
             </TouchableOpacity>
 
         <View>
@@ -79,14 +79,13 @@ export default function Profile({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         color: COLOURS.black,
-        border: "10",
         alignItems: "center",
         flex: 1,
     },
     settings: {
         width: "95%",
         height: 50,
-        alignItems: "left",
+        alignItems: "center",
         justifyContent: "center",
         backgroundColor: COLOURS.white,
         borderTopWidth: 1,
@@ -136,4 +135,8 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         backgroundColor: COLOURS.primary,
       },
+      buttonText: {
+        color: COLOURS.white,
+        fontSize: 20
+    },
 })

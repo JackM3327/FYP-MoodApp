@@ -248,15 +248,16 @@ export default function AddEntry({ navigation }) {
          <View style={styles.row}>
             <View style={styles.leftTop}>
             <Slider
+            // style={{ flex: 1, width: "100%", alignItems: 'stretch', justifyContent: 'center' }}
             value={posvalue}
-            maximumValue={posvalue+negvalue}
+            maximumValue={posvalue + negvalue}
             minimumValue={-1}
             step={1}
             disabled='true'
             trackStyle={{ height: 20 }}
             thumbStyle={{ height: 20, width: 20, backgroundColor: COLOURS.primary }}
             minimumTrackTintColor={ COLOURS.primary }
-            maximumTrackTintColor={ COLOURS.white }
+            maximumTrackTintColor={ COLOURS.white}
             />
             </View>
             <View style={styles.rightTop}>
@@ -459,7 +460,6 @@ const styles = StyleSheet.create ({
       alignItems: 'center',
    },
    ratioBox: {
-      size: 40,
       height: 40,
       justifyContent: 'center',
       alignItems: 'center',
@@ -481,7 +481,6 @@ const styles = StyleSheet.create ({
       borderColor: COLOURS.lightGray, 
       borderWidth: 1,
       borderRadius: 5,
-      placeholderTextColor: COLOURS.darkgray,
       margin: 5,
       backgroundColor: COLOURS.white,
    },

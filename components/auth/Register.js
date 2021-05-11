@@ -113,12 +113,20 @@ const styles = StyleSheet.create({
       },
      
       loginBtn: {
-        width: "80%",
-        borderRadius: 25,
-        height: 50,
+        borderWidth: 1,
+        backgroundColor: COLOURS.primary,
+        borderRadius: 30,
+        borderColor: COLOURS.secondary,
+        width: "70%",
+        height: 60,
         alignItems: "center",
+        alignSelf: "center",
         justifyContent: "center",
-        marginTop: 40,
-        backgroundColor: "#FF1493",
+        margin: 20,
       },
+
+      buttonText: {
+        color: COLOURS.white,
+        fontSize: 20
+    },
 })

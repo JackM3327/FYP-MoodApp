@@ -10,7 +10,7 @@ const firebaseConfig = {
   };
   
  
-  require('firebase/analytics')
+  // require('firebase/analytics')
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);

@@ -40,7 +40,7 @@ export class Main extends Component {
         // )}
 
         return (
-            <Tab.Navigator initialRouteName="Home" labeled={false}>
+            <Tab.Navigator initialRouteName="Home" labeled={true}>
                 <Tab.Screen name="Home" component={HomeScreen}
                     options={{
                         tabBarIcon: ({ color, size }) => (

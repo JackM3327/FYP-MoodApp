@@ -56,6 +56,7 @@ export default function Information() {
             <Text>Click on an icon to find out more about each activity group</Text>
             <Text>The goal of this app is to track your daily activities from exercise to the things you enjoy</Text>
             <Text>The overall goal is to come out with a positive ratio of positive to negative experiences</Text>
+            <Text>Check out the information page to see which activity group is your strongest and where you can improve!</Text>
             </Card>
          </View>
 
